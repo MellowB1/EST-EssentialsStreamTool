@@ -1,0 +1,10 @@
+# Never commit binaries or source from the private project
+*.exe
+*.zip
+*.asar
+src/
+node_modules/
+dist/
+win-unpacked/
+.DS_Store
+Thumbs.db
