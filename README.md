@@ -51,7 +51,7 @@ La app abre un WebSocket local (puerto `8585` por defecto) y sirve sprites por H
 
 ### Créditos y agradecimientos
 
-Creada por **MellowB1** (Pokémon Subwayz).
+Creada por **MellowB1**.
 
 Agradecimientos: **Bluriskayo · Dpertierra · Miolthor · Skyflyer_R · Zik**.
 
@@ -107,7 +107,7 @@ The app opens a local WebSocket (default port `8585`) and serves sprites over lo
 
 ### Credits and acknowledgements
 
-Created by **MellowB1** (Pokémon Subwayz).
+Created by **MellowB1**.
 
 Thanks: **Bluriskayo · Dpertierra · Miolthor · Skyflyer_R · Zik**.
 
