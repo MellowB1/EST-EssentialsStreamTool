@@ -1,0 +1,1010 @@
+@font-face {
+    font-family: "BW2UI";
+    src: local("Gemunu Libre"), local("Segoe UI");
+}
+
+:root {
+    --bw2-text: #f3f6ff;
+    --bw2-border: #3f4857;
+    --bw2-bg: rgba(16, 28, 45, 0.88);
+    --bw2-panel: rgba(8, 18, 32, 0.92);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+    font-family: "BW2UI", "Segoe UI", Tahoma, sans-serif;
+    color: var(--bw2-text);
+}
+
+/* Party layouts: never clip bob/jump at the page edge (lives/badges keep body overflow hidden) */
+html:has(body.layout-horizontal),
+html:has(body.layout-vertical),
+html:has(body.layout-2col),
+html:has(body.layout-3col),
+html:has(body.layout-stair),
+html:has(body.layout-stair-left),
+html:has(body.layout-circle),
+body.layout-horizontal,
+body.layout-vertical,
+body.layout-2col,
+body.layout-3col,
+body.layout-stair,
+body.layout-stair-left,
+body.layout-circle {
+    overflow: visible;
+}
+
+/* ── Team strip ── */
+#teamStrip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 32px;
+    overflow: visible;
+}
+
+.slot-lock-overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.slot-lock-overlay .slot-lock-icon {
+    width: 52%;
+    height: 52%;
+    max-width: 64px;
+    max-height: 64px;
+    object-fit: contain;
+    image-rendering: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+}
+
+.team-slot.permalocke-locked .sprite-wrap,
+.team-slot.permalocke-locked .slot-meta {
+    opacity: 0.55;
+}
+
+/* Empty locked slots must stay fully opaque or the padlock disappears */
+.team-slot.empty.permalocke-locked {
+    opacity: 1;
+}
+
+.team-slot {
+    position: relative;
+    display: block;
+    width: 300px;
+    height: 120px;
+    --slot-bg-top: rgba(48, 61, 83, 0.94);
+    --slot-bg-bot: rgba(19, 27, 40, 0.96);
+    --slot-accent: rgba(255, 255, 255, 0.85);
+    /* Chrome lives on ::before so sprites can paint above all type backgrounds */
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+    flex-shrink: 0;
+}
+
+.team-slot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border: thick double var(--slot-accent);
+    border-radius: 5px;
+    background: linear-gradient(180deg, var(--slot-bg-top) 0%, var(--slot-bg-bot) 100%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+}
+
+.team-slot[data-type="normal"] { --slot-accent: #8a8a59; --slot-bg-top: #a8a878; --slot-bg-bot: #8a8a59; }
+.team-slot[data-type="fire"] { --slot-accent: #c95d1a; --slot-bg-top: #f08030; --slot-bg-bot: #c95d1a; }
+.team-slot[data-type="water"] { --slot-accent: #3f67c4; --slot-bg-top: #6890f0; --slot-bg-bot: #3f67c4; }
+.team-slot[data-type="electric"] { --slot-accent: #d1ad16; --slot-bg-top: #f8d030; --slot-bg-bot: #d1ad16; }
+.team-slot[data-type="grass"] { --slot-accent: #589a37; --slot-bg-top: #78c850; --slot-bg-bot: #589a37; }
+.team-slot[data-type="ice"] { --slot-accent: #6fb4b4; --slot-bg-top: #98d8d8; --slot-bg-bot: #6fb4b4; }
+.team-slot[data-type="fighting"] { --slot-accent: #97201b; --slot-bg-top: #c03028; --slot-bg-bot: #97201b; }
+.team-slot[data-type="poison"] { --slot-accent: #7a2d7a; --slot-bg-top: #a040a0; --slot-bg-bot: #7a2d7a; }
+.team-slot[data-type="ground"] { --slot-accent: #b19645; --slot-bg-top: #e0c068; --slot-bg-bot: #b19645; }
+.team-slot[data-type="flying"] { --slot-accent: #7f65c9; --slot-bg-top: #a890f0; --slot-bg-bot: #7f65c9; }
+.team-slot[data-type="psychic"] { --slot-accent: #cc3866; --slot-bg-top: #f85888; --slot-bg-bot: #cc3866; }
+.team-slot[data-type="bug"] { --slot-accent: #828f16; --slot-bg-top: #a8b820; --slot-bg-bot: #828f16; }
+.team-slot[data-type="rock"] { --slot-accent: #907b25; --slot-bg-top: #b8a038; --slot-bg-bot: #907b25; }
+.team-slot[data-type="ghost"] { --slot-accent: #544070; --slot-bg-top: #705898; --slot-bg-bot: #544070; }
+.team-slot[data-type="dragon"] { --slot-accent: #5123be; --slot-bg-top: #7038f8; --slot-bg-bot: #5123be; }
+.team-slot[data-type="dark"] { --slot-accent: #4f3d30; --slot-bg-top: #705848; --slot-bg-bot: #4f3d30; }
+.team-slot[data-type="steel"] { --slot-accent: #8f8fa6; --slot-bg-top: #b8b8d0; --slot-bg-bot: #8f8fa6; }
+.team-slot[data-type="fairy"] { --slot-accent: #cf8f97; --slot-bg-top: #f0b6bc; --slot-bg-bot: #cf8f97; }
+.team-slot[data-type="unknown"] { --slot-accent: rgba(255, 255, 255, 0.75); --slot-bg-top: rgba(48, 61, 83, 0.9); --slot-bg-bot: var(--bw2-bg); }
+
+.team-slot.empty {
+    opacity: 0.42;
+}
+
+.team-slot.fainted {
+    filter: grayscale(1);
+}
+
+/* HP bar: hidden by default; shown only in info-hp presets */
+.slot-hp {
+    display: none;
+    width: 100%;
+    height: 10px;
+    margin-top: 6px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.slot-hp-fill {
+    height: 100%;
+    width: 0%;
+    background: #4caf50;
+    transition: width 180ms ease;
+}
+
+.slot-hp-fill.hp-high { background: #4caf50; }
+.slot-hp-fill.hp-mid { background: #f0c030; }
+.slot-hp-fill.hp-low { background: #e04040; }
+
+.sprite-wrap {
+    position: absolute;
+    right: 24px;
+    width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    image-rendering: pixelated;
+    overflow: visible;
+    z-index: 20;
+}
+
+.sprite-wrap > * {
+    position: relative;
+    z-index: 1;
+    transform: none;
+    transform-origin: center;
+    width: 104px !important;
+    height: 104px !important;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.slot-meta {
+    position: absolute;
+    left: 15px;
+    right: 116px;
+    top: 0;
+    bottom: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    z-index: 1;
+}
+
+.slot-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 4px;
+}
+
+.slot-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+}
+
+.slot-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+    white-space: normal;
+    overflow: visible;
+    word-break: break-word;
+}
+
+.slot-level-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+}
+
+.slot-level {
+    flex-shrink: 0;
+    font-size: 17px;
+    font-weight: 700;
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+    white-space: nowrap;
+}
+
+.slot-gender {
+    flex-shrink: 0;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.9);
+}
+
+.slot-gender.male,
+.slot-gender.female {
+    color: #ffffff;
+}
+
+.slot-gender:empty {
+    display: none;
+}
+
+/* Legacy boxed sex/item row removed from data cards */
+.slot-info {
+    display: none;
+}
+
+/* ── Lives panel ── */
+#livesPanel {
+    display: inline-block;
+    border: 0;
+    background: transparent;
+    padding: 6px;
+}
+
+#livesHeader {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+}
+
+#livesValue {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+#livesHearts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.life-heart {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+    color: #ef5d6f;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+    opacity: 1;
+    transition: opacity 180ms ease, filter 180ms ease;
+}
+
+.life-heart.dead {
+    opacity: 0.35;
+    filter: grayscale(1);
+}
+
+#livesCompact {
+    display: none;
+    align-items: center;
+    gap: 4px;
+}
+
+.life-count-num {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    color: #e9eef7;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+.life-count-num::before {
+    content: '\00D7';
+    margin-right: 2px;
+    font-weight: 400;
+    opacity: 0.75;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Lives overlay preset variants
+   Toggled by body classes set in each overlays/lives-* preset HTML:
+     layout-lives-h | layout-lives-v | layout-lives-count
+   ────────────────────────────────────────────────────────────── */
+
+body.layout-lives-h #livesHeader,
+body.layout-lives-h #livesValue,
+body.layout-lives-h #livesCompact,
+body.layout-lives-v #livesHeader,
+body.layout-lives-v #livesValue,
+body.layout-lives-v #livesCompact {
+    display: none !important;
+}
+
+body.layout-lives-h #livesHearts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+body.layout-lives-v #livesHearts {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+body.layout-lives-count #livesHeader,
+body.layout-lives-count #livesValue,
+body.layout-lives-count #livesHearts {
+    display: none !important;
+}
+
+body.layout-lives-count #livesCompact {
+    display: flex !important;
+}
+
+body.layout-lives-count #livesCompact .life-heart {
+    width: 28px;
+    height: 28px;
+    font-size: 26px;
+}
+
+/* Badge overlays: shrink to content like the vertical preset (OBS-stable). */
+html:has(#badgesPanel),
+body:has(#badgesPanel) {
+    width: max-content;
+    height: max-content;
+    overflow: hidden;
+}
+
+/* ── Badges panel ── */
+#badgesPanel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 6px;
+    width: max-content;
+    height: max-content;
+}
+
+.badge-slot {
+    width: 84px;
+    height: 84px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-slot.obtained {
+    filter: drop-shadow(0 0 3px rgba(255, 220, 80, 0.5));
+}
+
+.badge-slot.not-obtained {
+    filter: grayscale(1) brightness(0.45);
+    opacity: 0.6;
+}
+
+.badge-icon-wrap {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+}
+
+.badge-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.badge-icon-raw {
+    height: 80px;
+    width: auto;
+    image-rendering: pixelated;
+}
+
+/* Added by badges-overlay.js when the source art is larger than the slot.
+   Nearest-neighbour downscaling shreds edges and gradients, so high-res
+   badge art (Fancy Badges ships 160x160) needs smooth filtering. Pixel-art
+   sheets like icon_badges.png (32x32 cells) keep the pixelated default. */
+.badge-icon-smooth {
+    image-rendering: auto;
+}
+
+.badge-fallback {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    color: #999;
+    font-size: 14px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-slot.not-obtained .badge-fallback {
+    opacity: 0.5;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Badges overlay preset variants
+   Toggled by body classes set in each overlays/badges-* preset HTML:
+     layout-badges-h | layout-badges-v | layout-badges-2row | layout-badges-2col
+   All variants are flex (same model as vertical). 2row/2col wrap at a
+   fixed content width so OBS never relayouts a CSS grid.
+   ────────────────────────────────────────────────────────────── */
+
+body.layout-badges-h #badgesPanel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+body.layout-badges-v #badgesPanel {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+body.layout-badges-2row #badgesPanel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /* 4 slots per row: 4*84 + 3*4 gap + 2*6 padding */
+    width: 360px;
+}
+
+body.layout-badges-2col #badgesPanel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /* 2 slots per row: 2*84 + 1*4 gap + 2*6 padding */
+    width: 184px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Party overlay preset variants
+   Toggled by body classes set in overlays/party/index.html:
+     layout-horizontal | layout-vertical | layout-2col | layout-3col | layout-stair | layout-stair-left | layout-circle
+     info-full | info-name | info-sprite | info-sprite-name
+     no-type-bg (optional — bare sprites, no type card)
+   These rules only apply on the party overlay (the only page that
+   sets these body classes), so lives/badges are unaffected.
+   ────────────────────────────────────────────────────────────── */
+
+/* Vertical layout: stack the slots in a column */
+body.layout-vertical #teamStrip {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: auto;
+}
+
+/* Two-column grid: 2 cols × 3 rows, filled row-major (1-2 / 3-4 / 5-6) */
+body.layout-2col #teamStrip {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-auto-rows: auto;
+    align-items: center;
+    justify-content: start;
+    width: auto;
+}
+
+/* Three-column grid: 3 cols × 2 rows, filled row-major (1-2-3 / 4-5-6) */
+body.layout-3col #teamStrip {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-auto-rows: auto;
+    align-items: center;
+    justify-content: start;
+    width: auto;
+}
+
+/* Staircase: 3×2 grid with top row offset to the right
+       [1] [2] [3]
+   [4] [5] [6]
+*/
+body.layout-stair #teamStrip {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-auto-rows: auto;
+    align-items: center;
+    justify-content: start;
+    width: auto;
+    /* Extra right padding so the shifted top row stays inside the strip */
+    padding-right: 66px;
+}
+
+body.layout-stair #teamStrip .team-slot:nth-child(-n+3) {
+    position: relative;
+    left: 60px;
+}
+
+/* Staircase mirror: 3×2 grid with top row offset to the left
+   [1] [2] [3]
+       [4] [5] [6]
+*/
+body.layout-stair-left #teamStrip {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-auto-rows: auto;
+    align-items: center;
+    justify-content: start;
+    width: auto;
+    padding-left: 66px;
+}
+
+body.layout-stair-left #teamStrip .team-slot:nth-child(-n+3) {
+    position: relative;
+    left: -60px;
+}
+
+/* Circle: 6 slots on a ring (top first, then clockwise) via left/top — no transform
+   so slots do not create stacking contexts that bury neighboring sprites. */
+body.layout-circle #teamStrip {
+    position: relative;
+    display: block;
+    width: 460px;
+    height: 460px;
+    padding: 32px;
+    box-sizing: content-box;
+    justify-content: unset;
+    align-items: unset;
+    gap: 0;
+    overflow: visible;
+}
+
+body.layout-circle .team-slot {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    margin: 0;
+}
+
+/* Radius 160px, slot 120×120; angles -90 + n*60 */
+body.layout-circle .team-slot:nth-child(1) {
+    left: calc(50% - 60px);
+    top: calc(50% - 220px);
+}
+body.layout-circle .team-slot:nth-child(2) {
+    left: calc(50% + 78.564px);
+    top: calc(50% - 140px);
+}
+body.layout-circle .team-slot:nth-child(3) {
+    left: calc(50% + 78.564px);
+    top: calc(50% + 20px);
+}
+body.layout-circle .team-slot:nth-child(4) {
+    left: calc(50% - 60px);
+    top: calc(50% + 100px);
+}
+body.layout-circle .team-slot:nth-child(5) {
+    left: calc(50% - 198.564px);
+    top: calc(50% + 20px);
+}
+body.layout-circle .team-slot:nth-child(6) {
+    left: calc(50% - 198.564px);
+    top: calc(50% - 140px);
+}
+
+/* Bare sprites: no type card chrome */
+body.no-type-bg .team-slot::before {
+    display: none;
+}
+
+body.no-type-bg .team-slot,
+body.no-type-bg .team-slot[data-type] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+body.no-type-bg .team-slot.empty {
+    opacity: 0;
+}
+
+/* Fainted must stay visible on plain presets (empty slots stay hidden) */
+body.no-type-bg .team-slot.fainted {
+    opacity: 1;
+    filter: grayscale(1);
+}
+
+/* ── Data cards: nickname + level stacked (full width for name) ── */
+body.info-full .slot-top,
+body.info-name .slot-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+body.info-full .slot-name,
+body.info-name .slot-name {
+    font-size: 22px;
+    width: auto;
+}
+
+body.info-full .slot-gender,
+body.info-name .slot-gender {
+    font-size: 20px;
+}
+
+body.info-full .slot-level,
+body.info-name .slot-level {
+    font-size: 16px;
+}
+
+/* Give text a bit more room; sprite display size stays 104px */
+body.info-full .slot-meta,
+body.info-name .slot-meta {
+    right: 108px;
+}
+
+body.info-full .sprite-wrap,
+body.info-name .sprite-wrap {
+    right: 12px;
+    width: 112px;
+}
+
+/* Horizontal with data: fit 6 cards inside a 1920px OBS canvas */
+body.layout-horizontal.info-full #teamStrip {
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    gap: 10px;
+    justify-content: center;
+    padding: 32px 40px;
+    overflow: visible;
+}
+
+body.layout-horizontal.info-full .team-slot {
+    width: min(300px, calc((100vw - 130px) / 6));
+    height: 120px;
+    flex-shrink: 0;
+}
+
+/* Vertical with data: wider card (single column, no 1920 squeeze) */
+body.layout-vertical.info-name .team-slot {
+    width: 340px;
+    height: 120px;
+}
+
+body.layout-vertical.info-name .slot-name {
+    font-size: 24px;
+}
+
+body.layout-vertical.info-name .slot-gender {
+    font-size: 22px;
+}
+
+body.info-name .slot-meta {
+    justify-content: center;
+}
+
+/* Horizontal con info + vertical con nombre: más aire vertical entre nombre y Lv/sexo, luego subir el bloque 4px */
+body.layout-horizontal.info-full .slot-top,
+body.layout-vertical.info-name .slot-top {
+    gap: 6px;
+}
+
+body.layout-horizontal.info-full .slot-meta,
+body.layout-vertical.info-name .slot-meta {
+    transform: translateY(-4px);
+}
+
+/* ── info-hp: same as info-full (name left, 104px sprite right), HP bar below ── */
+body.info-hp .slot-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+body.info-hp .slot-name {
+    font-size: 22px;
+    width: auto;
+}
+
+body.info-hp .slot-gender {
+    font-size: 20px;
+}
+
+body.info-hp .slot-level {
+    font-size: 16px;
+}
+
+body.info-hp .slot-meta {
+    left: 15px;
+    right: 108px;
+    top: 0;
+    bottom: 28px;
+    justify-content: center;
+    transform: translateY(-4px);
+}
+
+body.info-hp .sprite-wrap {
+    right: 22px; /* 10px más a la izquierda que info-full */
+    top: 0;
+    bottom: 28px;
+    width: 112px;
+    height: auto;
+    overflow: visible;
+}
+
+body.info-hp .sprite-wrap > * {
+    width: 104px !important;
+    height: 104px !important;
+}
+
+body.info-hp .slot-hp {
+    display: block;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+    width: auto;
+    height: 12px;
+    margin-top: 0;
+    z-index: 3;
+}
+
+body.layout-horizontal.info-hp #teamStrip {
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    gap: 10px;
+    justify-content: center;
+    padding: 32px 40px;
+    overflow: visible;
+}
+
+body.layout-horizontal.info-hp .team-slot {
+    width: min(300px, calc((100vw - 130px) / 6));
+    height: 148px;
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+/* ── info-sprite-hp: vertical sprite only + HP bar below (104px sprite, no clip) ── */
+body.info-sprite-hp .slot-meta {
+    display: none;
+}
+
+body.info-sprite-hp .team-slot {
+    width: 120px;
+    height: 140px;
+    overflow: visible;
+}
+
+body.info-sprite-hp .sprite-wrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 28px;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    z-index: 20;
+}
+
+body.info-sprite-hp .sprite-wrap > * {
+    transform: none;
+    width: 104px !important;
+    height: 104px !important;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+body.info-sprite-hp .slot-hp {
+    display: block;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+    width: auto;
+    height: 12px;
+    margin-top: 0;
+    z-index: 3;
+}
+
+/* Info: sprite only — hide all text, show just the graphic centered */
+body.info-sprite .slot-meta {
+    display: none;
+}
+
+body.info-sprite .team-slot {
+    width: 120px;
+    height: 120px;
+    overflow: visible;
+}
+
+body.info-sprite .sprite-wrap {
+    position: relative;
+    right: auto;
+    width: 100%;
+    justify-content: center;
+    overflow: visible;
+    z-index: 20;
+}
+
+/* Fixed 104px display box for all party sprites (autoFit fills ~90% with visible art).
+   No CSS scale — native frame padding must not affect apparent size. */
+body.info-sprite .sprite-wrap > * {
+    transform: none;
+    width: 104px !important;
+    height: 104px !important;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+/* Info: sprite card + nickname/name centered below the type background */
+body.info-sprite-name .team-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    height: auto;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    overflow: visible;
+}
+
+/* Slot chrome is on .sprite-wrap for this mode — hide the shared ::before */
+body.info-sprite-name .team-slot::before {
+    display: none;
+}
+
+body.info-sprite-name .sprite-wrap {
+    position: relative;
+    order: 1;
+    right: auto;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    justify-content: center;
+    border: thick double var(--slot-accent, rgba(255, 255, 255, 0.85));
+    border-radius: 5px;
+    background: linear-gradient(180deg, var(--slot-bg-top) 0%, var(--slot-bg-bot) 100%);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+    overflow: visible;
+    z-index: 20;
+}
+
+body.info-sprite-name .sprite-wrap > * {
+    position: relative;
+    z-index: 1;
+    transform: none;
+    width: 104px !important;
+    height: 104px !important;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+body.info-sprite-name .slot-meta {
+    position: relative;
+    order: 2;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    width: 120px;
+    min-height: 32px;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+    transform: none;
+    overflow: visible;
+}
+
+body.info-sprite-name .slot-top {
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    gap: 0;
+    overflow: visible;
+}
+
+body.info-sprite-name .slot-name-row {
+    position: relative;
+    justify-content: center;
+    width: 120px;
+    overflow: visible;
+}
+
+body.info-sprite-name .slot-name {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    flex: none;
+    width: max-content;
+    max-width: none;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
+    overflow: visible;
+    word-break: normal;
+}
+
+body.info-sprite-name .slot-level-row {
+    display: none;
+}
+
+body.info-sprite-name .slot-lock-overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 120px;
+    height: 120px;
+}
+
+/* Same layout as info-sprite-name, but bare sprite (no type card on .sprite-wrap) */
+body.info-sprite-name.no-type-bg .sprite-wrap {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+}
+
+/* Long centered names + animated sprites: keep bleed room on the strip */
+body.layout-vertical.info-sprite-name #teamStrip {
+    overflow: visible;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}

@@ -31,7 +31,7 @@ App **gratuita**, sin ánimo de lucro, hecha para la comunidad fangame.
 ### Cómo usar
 
 1. Descarga el ZIP de la [última release](https://github.com/MellowB1/EST-EssentialsStreamTool/releases/latest) y extráelo.
-2. Abre `Essentials Stream Tool beta v0.0.1.exe`.
+2. Abre `Essentials Stream Tool beta v0.0.1b.exe`.
 3. En **Biblioteca → Añadir juego**, elige la carpeta raíz del fangame (donde está `Game.ini`).
 4. Pulsa **Jugar** y carga una partida. El estado debe pasar a *tracking en tiempo real*.
 5. En **Overlays** (Equipo / Medallas / Corazones), elige un preset y pulsa **Copiar URL**.
@@ -87,7 +87,7 @@ A **free** app with no profit motive, made for the fangame community.
 ### How to use
 
 1. Download the ZIP from the [latest release](https://github.com/MellowB1/EST-EssentialsStreamTool/releases/latest) and extract it.
-2. Open `Essentials Stream Tool beta v0.0.1.exe`.
+2. Open `Essentials Stream Tool beta v0.0.1b.exe`.
 3. In **Library → Add game**, pick the fangame root folder (the one with `Game.ini`).
 4. Click **Play** and load a save. Status should switch to *live tracking*.
 5. Under **Overlays** (Party / Badges / Hearts), pick a preset and **Copy URL**.

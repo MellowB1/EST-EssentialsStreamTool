@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Essentials Stream Tool - Overlays</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0a1220;
+            color: #e9eef7;
+            padding: 2rem;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 1.35rem; margin-bottom: 0.5rem; color: #7cc6ff; }
+        .subtitle { color: #9db0c7; font-size: 0.9rem; margin-bottom: 1.25rem; }
+        .overlay-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #111f34;
+            border: 1px solid #2a4266;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+        }
+        .overlay-icon { font-size: 1.3rem; width: 40px; text-align: center; flex-shrink: 0; }
+        .overlay-info { flex: 1; min-width: 0; }
+        .overlay-name { font-weight: 700; font-size: 0.98rem; }
+        .overlay-desc { font-size: 0.83rem; color: #9db0c7; margin-top: 2px; }
+        .overlay-url {
+            font-family: Consolas, monospace;
+            font-size: 0.72rem;
+            color: #8fd3ff;
+            margin-top: 6px;
+            word-break: break-all;
+            user-select: all;
+        }
+        .copy-btn {
+            padding: 7px 12px;
+            background: #15335a;
+            border: 1px solid #2e5f95;
+            border-radius: 6px;
+            color: #d9ebff;
+            cursor: pointer;
+            font-size: 0.76rem;
+            white-space: nowrap;
+        }
+        .copy-btn:hover { background: #1c467c; }
+        .tip {
+            margin-top: 1rem;
+            background: rgba(124,198,255,0.09);
+            border: 1px solid rgba(124,198,255,0.28);
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-size: 0.82rem;
+            color: #a9bfd8;
+            line-height: 1.35;
+        }
+    </style>
+</head>
+<body>
+    <h1>Essentials Stream Tool - Overlays</h1>
+    <p class="subtitle">Overlays BW2 independientes para configurar por separado en OBS.</p>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Horizontal con info</div>
+            <div class="overlay-desc">Barra horizontal con nombre, nivel y sexo.</div>
+            <div class="overlay-url" id="url-party-h-full"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-h-full', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Horizontal con info (sin fondo)</div>
+            <div class="overlay-desc">Igual que horizontal con info, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-h-full-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-h-full-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Horizontal con HP</div>
+            <div class="overlay-desc">Barra horizontal con nombre, nivel, sexo y barra de HP.</div>
+            <div class="overlay-url" id="url-party-h-hp"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-h-hp', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Horizontal con HP (sin fondo)</div>
+            <div class="overlay-desc">Igual que horizontal con HP, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-h-hp-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-h-hp-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical sprite con HP</div>
+            <div class="overlay-desc">Columna vertical con sprite y barra de HP.</div>
+            <div class="overlay-url" id="url-party-v-sprite-hp"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-sprite-hp', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical sprite con HP (sin fondo)</div>
+            <div class="overlay-desc">Columna vertical con sprite y HP, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-v-sprite-hp-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-sprite-hp-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Horizontal solo sprite</div>
+            <div class="overlay-desc">Barra horizontal con solo el gráfico del Pokémon.</div>
+            <div class="overlay-url" id="url-party-h-sprite"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-h-sprite', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Horizontal solo sprite (sin fondo)</div>
+            <div class="overlay-desc">Barra horizontal solo sprite, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-h-sprite-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-h-sprite-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical con nombre</div>
+            <div class="overlay-desc">Columna vertical con el nombre del Pokémon.</div>
+            <div class="overlay-url" id="url-party-v-name"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-name', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical con nombre (sin fondo)</div>
+            <div class="overlay-desc">Columna vertical con nombre al lado, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-v-name-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-name-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical solo sprite</div>
+            <div class="overlay-desc">Columna vertical con solo el gráfico del Pokémon.</div>
+            <div class="overlay-url" id="url-party-v-sprite"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-sprite', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical solo sprite (sin fondo)</div>
+            <div class="overlay-desc">Columna vertical solo sprite, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-v-sprite-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-sprite-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical sprite con nombre debajo</div>
+            <div class="overlay-desc">Columna vertical con fondo por tipo y mote/nombre bajo la card.</div>
+            <div class="overlay-url" id="url-party-v-sprite-name"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-sprite-name', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Vertical nombre debajo (sin fondo)</div>
+            <div class="overlay-desc">Columna vertical con solo el sprite y el mote/nombre debajo, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-v-name-below"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-v-name-below', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Dos columnas solo sprite</div>
+            <div class="overlay-desc">Cuadrícula 2×3 con solo el gráfico del Pokémon.</div>
+            <div class="overlay-url" id="url-party-2col-sprite"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-2col-sprite', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Dos columnas solo sprite (sin fondo)</div>
+            <div class="overlay-desc">Cuadrícula 2×3 solo sprite, sin card de tipo.</div>
+            <div class="overlay-url" id="url-party-2col-sprite-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-2col-sprite-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Tres columnas solo sprite (con fondo)</div>
+            <div class="overlay-desc">Cuadrícula 3×2 con solo el gráfico del Pokémon y card de tipo.</div>
+            <div class="overlay-url" id="url-party-3col-sprite-bg"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-3col-sprite-bg', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Tres columnas solo sprite (sin fondo)</div>
+            <div class="overlay-desc">Cuadrícula 3×2 con solo el gráfico del Pokémon, sin fondo de tipo.</div>
+            <div class="overlay-url" id="url-party-3col-sprite"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-3col-sprite', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Escalera derecha solo sprite (con fondo)</div>
+            <div class="overlay-desc">Dos filas de 3 en escalera (fila superior a la derecha) con card de tipo.</div>
+            <div class="overlay-url" id="url-party-stair-sprite-bg"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-stair-sprite-bg', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Escalera derecha solo sprite (sin fondo)</div>
+            <div class="overlay-desc">Dos filas de 3 en escalera (fila superior desplazada a la derecha), sin fondo de tipo.</div>
+            <div class="overlay-url" id="url-party-stair-sprite"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-stair-sprite', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Escalera izquierda solo sprite (con fondo)</div>
+            <div class="overlay-desc">Dos filas de 3 en escalera (fila superior a la izquierda) con card de tipo.</div>
+            <div class="overlay-url" id="url-party-stair-left-sprite-bg"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-stair-left-sprite-bg', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Escalera izquierda solo sprite (sin fondo)</div>
+            <div class="overlay-desc">Dos filas de 3 en escalera (fila superior desplazada a la izquierda), sin fondo de tipo.</div>
+            <div class="overlay-url" id="url-party-stair-left-sprite"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-stair-left-sprite', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Círculo solo sprite</div>
+            <div class="overlay-desc">Seis Pokémon en anillo con card de tipo, sin nombres.</div>
+            <div class="overlay-url" id="url-party-circle-sprite"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-circle-sprite', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">⚔</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Equipo · Círculo solo sprite (sin fondo)</div>
+            <div class="overlay-desc">Seis Pokémon en anillo sin card de tipo ni nombres.</div>
+            <div class="overlay-url" id="url-party-circle-sprite-plain"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('party-circle-sprite-plain', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">❤</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Vidas · Horizontal</div>
+            <div class="overlay-desc">Corazones individuales en una sola fila.</div>
+            <div class="overlay-url" id="url-lives-h"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('lives-h', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">❤</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Vidas · Vertical</div>
+            <div class="overlay-desc">Corazones individuales en una sola columna.</div>
+            <div class="overlay-url" id="url-lives-v"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('lives-v', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">❤</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Vidas · Corazón × número</div>
+            <div class="overlay-desc">Un corazón y el contador actual (❤ × 25).</div>
+            <div class="overlay-url" id="url-lives-count"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('lives-count', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">🏅</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Medallas · Horizontal</div>
+            <div class="overlay-desc">Todas las medallas en una sola fila.</div>
+            <div class="overlay-url" id="url-badges-h"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('badges-h', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">🏅</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Medallas · Vertical</div>
+            <div class="overlay-desc">Todas las medallas en una sola columna.</div>
+            <div class="overlay-url" id="url-badges-v"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('badges-v', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">🏅</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Medallas · Dos líneas</div>
+            <div class="overlay-desc">Medallas repartidas en dos filas.</div>
+            <div class="overlay-url" id="url-badges-2row"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('badges-2row', this)">Copiar</button>
+    </div>
+
+    <div class="overlay-card">
+        <div class="overlay-icon">🏅</div>
+        <div class="overlay-info">
+            <div class="overlay-name">Medallas · Dos columnas</div>
+            <div class="overlay-desc">Medallas repartidas en dos columnas.</div>
+            <div class="overlay-url" id="url-badges-2col"></div>
+        </div>
+        <button class="copy-btn" onclick="copyUrl('badges-2col', this)">Copiar</button>
+    </div>
+
+    <div class="tip">
+        En OBS añade cada overlay como fuente de navegador independiente. Puedes usar archivo local
+        o URL HTTP del servidor de sprites. Coloca y escala cada uno donde quieras en tu escena.
+    </div>
+
+    <script>
+        const isLocal = window.location.protocol === 'file:';
+
+        function getBasePath() {
+            if (isLocal) {
+                const href = window.location.href;
+                return href.substring(0, href.lastIndexOf('/'));
+            }
+            return window.location.origin + '/overlay';
+        }
+
+        const base = getBasePath();
+        ['party-h-full', 'party-h-full-plain', 'party-h-hp', 'party-h-hp-plain',
+         'party-h-sprite', 'party-h-sprite-plain', 'party-v-sprite-hp', 'party-v-sprite-hp-plain',
+         'party-v-name', 'party-v-name-plain', 'party-v-sprite', 'party-v-sprite-plain',
+         'party-v-sprite-name', 'party-v-name-below',
+         'party-2col-sprite', 'party-2col-sprite-plain',
+         'party-3col-sprite-bg', 'party-3col-sprite',
+         'party-stair-sprite-bg', 'party-stair-sprite',
+         'party-stair-left-sprite-bg', 'party-stair-left-sprite',
+         'party-circle-sprite', 'party-circle-sprite-plain',
+         'lives-h', 'lives-v', 'lives-count',
+         'badges-h', 'badges-v', 'badges-2row', 'badges-2col'].forEach(function (name) {
+            const el = document.getElementById('url-' + name);
+            if (el) {
+                el.textContent = isLocal ? name + '/' + name + '.html' : base + '/' + name;
+            }
+        });
+
+        function copyUrl(overlayName, btn) {
+            const path = isLocal
+                ? base + '/' + overlayName + '/' + overlayName + '.html'
+                : base + '/' + overlayName;
+            navigator.clipboard.writeText(path).then(() => {
+                btn.textContent = '¡Copiado!';
+                setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
