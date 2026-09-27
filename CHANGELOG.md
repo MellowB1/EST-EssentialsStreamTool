@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.2
+
+### Español
+
+- Actualización desde la aplicación: busca la última release en GitHub, descarga el portable de Windows y, al aceptar, sustituye el ejecutable y la carpeta de overlays. Los juegos y la configuración se conservan.
+
+### English
+
+- In-app updates: checks the latest GitHub release, downloads the Windows portable, and on accept replaces the executable and the overlays folder. Games and settings are kept.
+
 ## 0.0.1b
 
 ### Español
